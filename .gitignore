@@ -1,0 +1,5 @@
+/target
+/kensa-fixture
+/lab
+.env
+secrets.env

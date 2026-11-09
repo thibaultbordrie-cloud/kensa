@@ -1,0 +1,31 @@
+[package]
+name = "kensa"
+version = "0.1.0"
+edition = "2021"
+description = "Multilingual and AI-search SEO auditor for sites in French, Japanese and Chinese: hreflang, CJK, zh-Hant vs zh-Hans, AI crawlers, llms.txt, structured data. Ships with a trap site and its answer key."
+license = "MIT"
+repository = "https://github.com/thibaultbordrie-cloud/kensa"
+readme = "README.md"
+keywords = ["seo", "hreflang", "crawler", "geo", "cjk"]
+categories = ["command-line-utilities", "web-programming"]
+
+[dependencies]
+anyhow = "1"
+isocountry = "0.3"
+isolang = "2"
+clap = { version = "4", features = ["derive"] }
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "rustls-tls", "rustls-tls-native-roots"] }
+scraper = "0.20"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+unicode-width = "0.2"
+url = "2"
+
+[dev-dependencies]
+sha2 = "0.10"
+unicode-normalization = "0.1"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

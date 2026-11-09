@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+# Least privilege: the default token can only read the repository.
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install stable --profile minimal --component rustfmt,clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Format
+        run: cargo fmt --check
+      - name: Lint
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Tests (rules, robots, language, 25-seed benchmark, docs sync, anonymity)
+        run: cargo test
+      - name: Benchmark on 100 seeds
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: |
+          cargo run --release -- bench --seed 1 --runs 100 > bench.txt
+          { echo '### Trap site benchmark'; echo '```'; grep -c "F1 1.000" bench.txt | xargs -I{} echo "{} / 100 seeds with F1 = 1.000"; head -3 bench.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
