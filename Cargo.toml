@@ -17,14 +17,14 @@ clap = { version = "4", features = ["derive"] }
 # ring, not the default aws-lc-rs: it builds on Windows without NASM or CMake.
 rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
 reqwest = { version = "0.13", default-features = false, features = ["blocking", "rustls-no-provider", "rustls-native-certs", "webpki-roots"] }
-scraper = "0.20"
+scraper = "0.29"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 unicode-width = "0.2"
 url = "2"
 
 [dev-dependencies]
-sha2 = "0.10"
+sha2 = "0.11"
 unicode-normalization = "0.1"
 
 [profile.release]
