@@ -21,6 +21,8 @@ pub struct Fetcher {
 
 impl Fetcher {
     pub fn new(timeout_secs: u64) -> anyhow::Result<Fetcher> {
+        // Ignore the error: it only means a provider was already installed in this process.
+        let _ = rustls::crypto::ring::default_provider().install_default();
         let client = reqwest::blocking::Client::builder()
             .user_agent(USER_AGENT)
             .redirect(reqwest::redirect::Policy::none())
